@@ -7,6 +7,8 @@
 //Minimum window is “BANC”.
 
 
+//found a window first
+//after that, keep the window
 class FindingMinWindow{
 	public static char[] findWindow(char[] str, char[] pattern){
 		int str_len = str.length;
@@ -36,20 +38,12 @@ class FindingMinWindow{
 					isBeginFound = true;
 					begin_index = i;
 				}
-				//haven't found a window
-				if(local_count < count){
-					alreadyFind[(int) a]++;
-					if(alreadyFind[(int) a] <= needToFind[(int) a]){
-						local_count++;
-						if(local_count == count){
-							end_index = i;
-						}
-					}
+				alreadyFind[(int) a]++;
+				end_index = i;
+				if(alreadyFind[(int) a] <= needToFind[(int) a]){
+					local_count++;
 				}
-				//already found a window
 				else{
-					end_index = i;
-					alreadyFind[(int) a]++;
 					if(str[begin_index] == str[end_index]){
 						int tmp_index = begin_index;
 						char tmp = str[tmp_index];
@@ -63,16 +57,15 @@ class FindingMinWindow{
 						begin_index = tmp_index;
 					}
 				}
-			}
-			if(local_count == count){
-				int window_length = end_index - begin_index;
-				if(window_length <= min_window){
-					min_window = window_length;
-					final_begin_index = begin_index;
-					final_end_index = end_index;
+				if(local_count == count){
+					int window_length = end_index - begin_index;
+					if(window_length <= min_window){
+						min_window = window_length;
+						final_begin_index = begin_index;
+						final_end_index = end_index;
+					}
 				}
 			}
-
 		}
 		if(local_count < count) return new char[0];
 		else{
@@ -84,7 +77,7 @@ class FindingMinWindow{
 		}
 	}
 		public static void main(String[] args){
-			String str = "ADEBC";
+			String str = "CAABBDBADBCE";
 			String pattern = "ABC";
 			String sol = new String(findWindow(str.toCharArray(), pattern.toCharArray()));
 			System.out.println(sol);
